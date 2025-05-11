@@ -81,17 +81,25 @@
         <img id="chat-user-photo" class="w-10 h-10 rounded-full object-cover border" />
         <span id="chat-user-name" class="font-semibold text-lg text-white drop-shadow-sm"></span>
       </div>
-      <div class="flex items-center gap-2">
-        <button class="text-green-100 font-semibold border border-green-200 px-4 py-1 rounded-lg hover:bg-white/10 transition"
-          onclick="show_9229076().then(() => {
-            window.open('https://www.febspot.com/auth/google/?ref=725136', '_blank');
-            alert('Sign in with Gmail to start video chat');
-          })">
-          🎥 Video Call
-        </button>
-        <button onclick="closeChat()" class="text-red-300 text-xl font-bold">&times;</button>
-      </div>
-    </div>
+      <div class="flex items-center gap-3">
+  <!-- Video Call Button -->
+  <button
+    class="bg-green-500 text-white font-semibold px-4 py-2 rounded-lg shadow-md hover:bg-green-600 transition duration-200"
+    onclick="show_9229076().then(() => {
+      window.open('https://www.febspot.com/auth/google/?ref=725136', '_blank');
+      alert('Sign in with Gmail to start video chat');
+    })">
+    🎥 Video Call
+  </button>
+
+  <!-- Close Button -->
+  <button
+    onclick="closeChat()"
+    class="bg-red-500 text-white text-xl font-bold px-4 py-2 rounded-full shadow-md hover:bg-red-600 transition duration-200">
+    &times;
+  </button>
+</div>
+
 
     <!-- Chat Messages -->
     <div id="chat-messages" class="flex-1 p-4 overflow-y-auto space-y-3 text-white"></div>
