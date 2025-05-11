@@ -59,6 +59,7 @@
         <button onclick="filterUsers('male')" class="text-white font-medium hover:underline">👨‍🦱 Male</button>
         <button onclick="filterUsers('female')" class="text-white font-medium hover:underline">👩 Female</button>
         <button onclick="showInbox()" class="ml-4 text-green-200 font-semibold hover:underline">📥 Inbox</button>
+        <button onclick="showPublicChat()" class="ml-4 text-blue-200 font-semibold hover:underline">💬 Chat</button>
       </div>
       <div class="flex items-center gap-3">
         <img id="user-photo" class="w-9 h-9 rounded-full border border-white shadow-sm object-cover" />
@@ -105,6 +106,28 @@
     </div>
   </div>
 
+</div>
+<!-- Public Chat Body -->
+<div id="public-chat-body" class="hidden absolute inset-0 flex flex-col bg-white/30 backdrop-blur-md rounded-lg shadow-lg overflow-hidden border border-white/20">
+
+  <!-- Header -->
+  <div class="flex items-center justify-between bg-white/30 backdrop-blur-md p-4 border-b border-white/20 shadow-sm">
+    <div class="flex items-center gap-3">
+      <span class="font-semibold text-xl text-white drop-shadow-sm">🌍 Public Chat</span>
+    </div>
+    <button onclick="closePublicChat()" class="text-red-300 text-xl font-bold">&times;</button>
+  </div>
+
+  <!-- Messages -->
+  <div id="public-chat-messages" class="flex-1 p-4 overflow-y-auto space-y-3 text-white">
+    <!-- Public messages will be appended here -->
+  </div>
+
+  <!-- Input -->
+  <div class="p-4 border-t border-white/20 bg-white/20 backdrop-blur-md flex gap-3 items-center">
+    <input id="public-message-input" type="text" placeholder="Type a public message..." class="flex-1 bg-white/10 text-white placeholder-white border border-white/30 px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-white" />
+    <button onclick="sendPublicMessage()" class="bg-white text-indigo-600 font-semibold px-5 py-2 rounded-lg hover:bg-gray-100 transition">Send</button>
+  </div>
 </div>
 
 
@@ -361,5 +384,46 @@
     // উদাহরণ: socket.emit('send-message', { to: 'User', message: 'Hello!' });
   }
 </script>
+  <script>function showPublicChat() {
+  document.getElementById('user-panel').classList.add('hidden');
+  document.getElementById('chat-body').classList.add('hidden');
+  document.getElementById('public-chat-body').classList.remove('hidden');
+}
+
+function closePublicChat() {
+  document.getElementById('public-chat-body').classList.add('hidden');
+  document.getElementById('user-panel').classList.remove('hidden');
+}
+
+// Example send public message (you can adjust this to emit via socket)
+function sendPublicMessage() {
+  const input = document.getElementById('public-message-input');
+  const message = input.value.trim();
+  if (!message) return;
+
+  // ✅ শুধু সার্ভারে মেসেজ পাঠাও, DOM-এ নিজে থেকে মেসেজ অ্যাপেন্ড করো না
+  socket.emit('publicMessage', { from: currentUser.name, text: message });
+
+  input.value = ''; // ইনপুট ক্লিয়ার করা হচ্ছে
+}
+    
+  socket.on('publicMessage', (msg) => {
+  const container = document.getElementById('public-chat-messages');
+  const bubble = document.createElement('div');
+  bubble.className = "bg-white/40 rounded-lg px-4 py-2 max-w-sm self-start";
+
+  // ✅ Smart fallback: from/message (bot) or name/message (real user)
+  const sender = msg.name || msg.from || "Unknown";
+  const text = msg.message || msg.text || "";
+
+  bubble.textContent = `${sender}: ${text}`;
+
+  container.appendChild(bubble);
+  container.scrollTop = container.scrollHeight;
+});
+
+
+
+  </script>
 </body>
 </html>
