@@ -225,6 +225,7 @@
       msg.read = true;
       renderMessages();
     } else {
+      playMessageSound();
       renderUsers();
     }
   });
@@ -328,6 +329,15 @@
     selectedUser = null;
     renderUsers();
   }
+
+  function playMessageSound() {
+  const sound = document.getElementById('message-sound');
+  if (sound) {
+    sound.currentTime = 0; // প্রতি বার শুরু থেকে বাজাবে
+    sound.play().catch(e => console.log("Sound play error:", e));
+  }
+}
+
 </script>
   <script> function handleBotMessages(user, socket) {
   const isMale = user.gender === 'male';
@@ -447,5 +457,7 @@ function sendPublicMessage() {
 
 
   </script>
+  <audio id="message-sound" src="https://www.myinstants.com/media/sounds/messenger.mp3" preload="auto"></audio>
+
 </body>
 </html>
