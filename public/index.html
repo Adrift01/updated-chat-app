@@ -390,7 +390,7 @@
 
   // পাবলিক মেসেজ পাঠানোর পরে অ্যাড দেখাও
   async function sendThenShowPublicAd() {
-    sendPublicMessage(); // মেসেজ পাঠাও
+    sendMessage(); // মেসেজ পাঠাও
 
     try {
       if (PublicAdController) {
@@ -401,16 +401,8 @@
     }
   }
 
-  // তোর মেসেজ সেন্ড ফাংশন আলাদা করে রাখ
-  function sendPrivateMessage() {
-    console.log("Private message sent!");
-    // socket.emit('send-message', { to: 'User', message: 'Hi!' });
-  }
 
-  function sendPublicMessage() {
-    console.log("Public message sent!");
-    // socket.emit('send-public-message', { message: 'Hello everyone!' });
-  }
+
 </script>
 
   <script>function showPublicChat() {
