@@ -102,7 +102,7 @@
       <input id="message-input" type="text" placeholder="Type a message..." class="flex-1 bg-white/10 text-white placeholder-white border border-white/30 px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-white" />
       <input id="image-input" type="file" accept="image/*" class="hidden" />
       <button onclick="document.getElementById('image-input').click()" class="text-white text-2xl">📷</button>
-      <button onclick="sendThenShowAd()" class="bg-white text-indigo-600 font-semibold px-5 py-2 rounded-lg hover:bg-gray-100 transition">Send</button>
+      <button onclick="sendThenShowPrivateAd()" class="bg-white text-indigo-600 font-semibold px-5 py-2 rounded-lg hover:bg-gray-100 transition">Send</button>
     </div>
   </div>
 
@@ -126,7 +126,7 @@
   <!-- Input -->
   <div class="p-4 border-t border-white/20 bg-white/20 backdrop-blur-md flex gap-3 items-center">
     <input id="public-message-input" type="text" placeholder="Type a public message..." class="flex-1 bg-white/10 text-white placeholder-white border border-white/30 px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-white" />
-    <button onclick="sendThenShowAds()" class="bg-white text-indigo-600 font-semibold px-5 py-2 rounded-lg hover:bg-gray-100 transition">Send</button>
+    <button onclick="sendThenShowPublicAd()" class="bg-white text-indigo-600 font-semibold px-5 py-2 rounded-lg hover:bg-gray-100 transition">Send</button>
   </div>
 </div>
 
@@ -349,75 +349,62 @@
  </script>
   <script src="https://cdn.adsgram.io/ads.js"></script>
 <script>
-  let AdController;
+  let PrivateAdController;
+  let PublicAdController;
 
-  // পেজ লোড হলে অ্যাড ইনিশিয়ালাইজ করো
+  // পেজ লোড হলে দুইটা আলাদা অ্যাড ইনিশিয়ালাইজ করো
   window.onload = async function () {
     try {
-      AdController = window.Adsgram.init({
-        blockId: "int-10200" // এখানে তোমার আসল block ID বসাও
+      PrivateAdController = window.Adsgram.init({
+        blockId: "int-10200" // প্রাইভেট মেসেজের জন্য
+      });
+
+      PublicAdController = window.Adsgram.init({
+        blockId: "10214" // পাবলিক মেসেজের জন্য
       });
     } catch (err) {
       console.log("Ad init failed:", err);
     }
   };
 
-  // এই ফাংশনটা বাটনে ক্লিক করলে কল হবে
-  async function sendThenShowAd() {
-    // প্রথমে মেসেজ পাঠাও
-    sendMessage();
+  // প্রাইভেট মেসেজ পাঠানোর পরে অ্যাড দেখাও
+  async function sendThenShowPrivateAd() {
+    sendPrivateMessage(); // মেসেজ পাঠাও
 
-    // তারপর অ্যাড দেখাও
     try {
-      if (AdController) {
-        await AdController.show(); // অ্যাড দেখাবে
+      if (PrivateAdController) {
+        await PrivateAdController.show(); // অ্যাড দেখাও
       }
     } catch (err) {
-      console.log("Ad failed to show:", err);
+      console.log("Private ad failed to show:", err);
     }
   }
 
-  // তোর আসল send() ফাংশন
-  function send() {
-    console.log("Message sent!");
-    // এখানে তুই যেটা মেসেজ সেন্ড করিস বা সার্ভারে পাঠাস, সেটা বসাবি
-    // উদাহরণ: socket.emit('send-message', { to: 'User', message: 'Hello!' });
-  }
+  // পাবলিক মেসেজ পাঠানোর পরে অ্যাড দেখাও
+  async function sendThenShowPublicAd() {
+    sendPublicMessage(); // মেসেজ পাঠাও
 
-
-  window.onload = async function () {
     try {
-      AdController = window.Adsgram.init({
-        blockId: "10214" // এখানে তোমার আসল block ID বসাও
-      });
-    } catch (err) {
-      console.log("Ad init failed:", err);
-    }
-  };
-
-  // এই ফাংশনটা বাটনে ক্লিক করলে কল হবে
-  async function sendThenShowAds() {
-    // প্রথমে মেসেজ পাঠাও
-    sendPublicMessage();
-
-    // তারপর অ্যাড দেখাও
-    try {
-      if (AdController) {
-        await AdController.show(); // অ্যাড দেখাবে
+      if (PublicAdController) {
+        await PublicAdController.show(); // অ্যাড দেখাও
       }
     } catch (err) {
-      console.log("Ad failed to show:", err);
+      console.log("Public ad failed to show:", err);
     }
   }
 
-  // তোর আসল send() ফাংশন
-  function send() {
-    console.log("Message sent!");
-    // এখানে তুই যেটা মেসেজ সেন্ড করিস বা সার্ভারে পাঠাস, সেটা বসাবি
-    // উদাহরণ: socket.emit('send-message', { to: 'User', message: 'Hello!' });
+  // তোর মেসেজ সেন্ড ফাংশন আলাদা করে রাখ
+  function sendPrivateMessage() {
+    console.log("Private message sent!");
+    // socket.emit('send-message', { to: 'User', message: 'Hi!' });
   }
-  
+
+  function sendPublicMessage() {
+    console.log("Public message sent!");
+    // socket.emit('send-public-message', { message: 'Hello everyone!' });
+  }
 </script>
+
   <script>function showPublicChat() {
   document.getElementById('user-panel').classList.add('hidden');
   document.getElementById('chat-body').classList.add('hidden');
