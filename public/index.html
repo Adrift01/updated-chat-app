@@ -377,7 +377,7 @@
 
   // প্রাইভেট মেসেজ পাঠানোর পরে অ্যাড দেখাও
   async function sendThenShowPrivateAd() {
-    sendPrivateMessage(); // মেসেজ পাঠাও
+    sendMessage(); // মেসেজ পাঠাও
 
     try {
       if (PrivateAdController) {
@@ -390,7 +390,7 @@
 
   // পাবলিক মেসেজ পাঠানোর পরে অ্যাড দেখাও
   async function sendThenShowPublicAd() {
-    sendMessage(); // মেসেজ পাঠাও
+    sendPublicMessage(); // মেসেজ পাঠাও
 
     try {
       if (PublicAdController) {
