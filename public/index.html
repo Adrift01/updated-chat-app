@@ -325,6 +325,7 @@
   function closeChat() {
     document.getElementById('chat-body').classList.add('hidden');
     document.getElementById('user-panel').classList.remove('hidden');
+    selectedUser = null;
     renderUsers();
   }
 </script>
