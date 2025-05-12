@@ -201,7 +201,7 @@
 
       const unread = messages[user.name]?.some(msg => !msg.read);
       list.innerHTML += `
-  <div onclick="openChat('${user.name}')" class="flex items-center justify-between p-3 bg-white rounded-lg shadow hover:shadow-md transition cursor-pointer">
+  <div onclick="openChat('${user.name}')" class="flex items-center justify-between p-3 bg-white/30 rounded-lg shadow hover:shadow-md transition cursor-pointer">
     <div class="flex items-center gap-3">
       <img src="${user.photo}" class="w-12 h-12 rounded-full object-cover border" />
       <div>
@@ -240,22 +240,30 @@
   }
 
   function showInbox() {
-    const list = document.getElementById('user-list');
-    list.innerHTML = '';
+  const list = document.getElementById('user-list');
+  list.innerHTML = '';
 
-    for (let name in messages) {
-      const user = users.find(u => u.name === name);
-      if (!user) continue;
-      const unread = messages[name].some(m => !m.read);
-      list.innerHTML += `
-        <div onclick="openChat('${name}')" class="cursor-pointer p-2 hover:bg-gray-100 flex items-center gap-3">
-          <img src="${user.photo}" class="w-10 h-10 rounded-full"/>
-          <span class="flex-1">${name}</span>
-          ${unread ? '<span class="w-3 h-3 bg-blue-500 rounded-full"></span>' : ''}
+  for (let name in messages) {
+    const user = users.find(u => u.name === name);
+    if (!user) continue;
+    const unread = messages[name].some(m => !m.read);
+    const lastMessage = messages[name][messages[name].length - 1]?.text || '';
+    
+    list.innerHTML += `
+      <div onclick="openChat('${user.name}')" 
+           class="flex items-center justify-between p-4 bg-white/30 rounded-2xl shadow hover:shadow-lg transition duration-200 cursor-pointer">
+        <div class="flex items-center gap-4">
+          <img src="${user.photo}" class="w-12 h-12 rounded-full object-cover border" />
+          <div>
+            <p class="text-gray-800 font-semibold">${user.name}</p>
+            <p class="text-sm text-gray-500 truncate w-48">${lastMessage}</p>
+          </div>
         </div>
-      `;
-    }
+        ${unread ? '<span class="w-3 h-3 bg-red-500 rounded-full animate-ping"></span>' : ''}
+      </div>
+    `;
   }
+}
 
   function openChat(userName) {
     selectedUser = users.find(u => u.name === userName);
