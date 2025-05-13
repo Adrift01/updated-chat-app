@@ -97,7 +97,7 @@ function handleBotMessages(user, socket) {
       const msg = {
         from: bot.name,
         to: user.name,
-        text: message,
+        message: message,
         read: false
       };
 
