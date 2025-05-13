@@ -83,7 +83,7 @@ io.on('connection', (socket) => {
 // 🧠 Simulate bot sending message to real user
 function handleBotMessages(user, socket) {
   const isMale = user.gender === 'male';
-  const botGroup = isMale ? femaleBots : maleBots;
+  const botGroup = isMale ? femaleNames : maleNames;
 
   // Randomly select 4–5 bots
   const botsToMessage = botGroup.sort(() => 0.5 - Math.random()).slice(0, 5);
