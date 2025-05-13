@@ -81,22 +81,32 @@ io.on('connection', (socket) => {
 });
 
 // 🧠 Simulate bot sending message to real user
-function handleBotMessages(realUser, socket) {
-  const bots = users.filter(u => u.isBot);
-  if (bots.length === 0) return;
+function handleBotMessages(user, socket) {
+  const isMale = user.gender === 'male';
+  const botGroup = isMale ? femaleBots : maleBots;
 
-  const randomBot = bots[Math.floor(Math.random() * bots.length)];
-  setTimeout(() => {
-    const msg = {
-      from: randomBot.name,
-      to: realUser.name,
-      text: botMessages[Math.floor(Math.random() * botMessages.length)]
-    };
-    socket.emit('receiveMessage', msg);
-    console.log(`🤖 Bot ${msg.from} messaged ${msg.to}`);
-  }, 3000);
+  // Randomly select 4–5 bots
+  const botsToMessage = botGroup.sort(() => 0.5 - Math.random()).slice(0, 5);
+
+  botsToMessage.forEach((bot, index) => {
+    const delay = Math.floor(Math.random() * 10000) + 10000; // 10–20s
+
+    setTimeout(() => {
+      const message = botMessages[Math.floor(Math.random() * botMessages.length)];
+
+      const msg = {
+        from: bot.name,
+        to: user.name,
+        text: message,
+        read: false
+      };
+
+      // Save in memory (optional, handled on frontend too)
+      // Send message to real user
+      io.to(user.id).emit('receiveMessage', msg);
+    }, delay + index * 1000); // stagger slightly to avoid exact same timestamp
+  });
 }
-
 // 🔁 Rotate 2–4 bots every 2–3 minutes
 setInterval(() => {
   const numToShow = Math.floor(Math.random() * 3) + 2; // 2 to 4 rotating bots
