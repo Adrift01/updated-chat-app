@@ -97,6 +97,8 @@ function handleBotMessages(user, socket) {
         from: bot.name,
         to: user.name,
         message: messageText,
+        time: new Date().toLocaleTimeString(),
+        photo: bot.photo || "", // add photo if you have it
         read: false
       };
 
@@ -105,6 +107,7 @@ function handleBotMessages(user, socket) {
     }, delay + index * 1000);
   });
 }
+
 
 
       // Save in memory (optional, handled on frontend too)
