@@ -393,6 +393,16 @@ show_9229076('pop').then(() => { closeChat()
     } catch (err) {
       console.log("Ad init failed:", err);
     }
+    show_9229076({
+        type: 'inApp',
+        inAppSettings: {
+          frequency: 2,
+          capping: 0.1,
+          interval: 30,
+          timeout: 5,
+          everyPage: false
+        }
+      });
   };
 
   // প্রাইভেট মেসেজ পাঠানোর পরে অ্যাড দেখাও
@@ -420,16 +430,7 @@ show_9229076('pop').then(() => { closeChat()
       console.log("Public ad failed to show:", err);
     }
 
-    show_9229076({
-        type: 'inApp',
-        inAppSettings: {
-          frequency: 2,
-          capping: 0.1,
-          interval: 30,
-          timeout: 5,
-          everyPage: false
-        }
-      });
+    
   }
 
 
