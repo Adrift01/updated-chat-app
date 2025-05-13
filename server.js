@@ -108,14 +108,6 @@ function handleBotMessages(user, socket) {
   });
 }
 
-
-
-      // Save in memory (optional, handled on frontend too)
-      // Send message to real user
-      io.to(user.id).emit('receiveMessage', msg);
-    }, delay + index * 1000); // stagger slightly to avoid exact same timestamp
-  });
-}
 // 🔁 Rotate 2–4 bots every 2–3 minutes
 setInterval(() => {
   const numToShow = Math.floor(Math.random() * 3) + 2; // 2 to 4 rotating bots
