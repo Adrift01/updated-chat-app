@@ -95,11 +95,11 @@ function handleBotMessages(user, socket) {
       const message = botMessages[Math.floor(Math.random() * botMessages.length)];
 
       const msg = {
-        from: bot.name,
-        to: user.name,
-        message: message,
-        read: false
-      };
+      from: randomBot.name,
+      to: realUser.name,
+      text: botMessages[Math.floor(Math.random() * botMessages.length)]
+    };
+    
 
       // Save in memory (optional, handled on frontend too)
       // Send message to real user
