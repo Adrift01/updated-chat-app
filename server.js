@@ -96,7 +96,7 @@ function handleBotMessages(user, socket) {
       const msg = {
         from: bot.name,
         to: user.name,
-        message: botMessages,
+        text: botMessages,
         time: new Date().toLocaleTimeString(),
         photo: bot.photo || "", // add photo if you have it
         read: false
