@@ -94,6 +94,7 @@ function handleBotMessages(user, socket) {
     setTimeout(() => {
       const message = botMessages[Math.floor(Math.random() * botMessages.length)];
 
+      const msg = {
       from: bot.name,
         to: user.name,
       text: botMessages[Math.floor(Math.random() * botMessages.length)]
