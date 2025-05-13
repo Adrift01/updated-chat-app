@@ -97,7 +97,7 @@ function handleBotMessages(user, socket) {
       const msg = {
       from: bot.name,
         to: user.name,
-      text: botMessages[Math.floor(Math.random() * botMessages.length)]
+      message: botMessages[Math.floor(Math.random() * botMessages.length)]
     };
     
 
