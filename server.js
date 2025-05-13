@@ -82,8 +82,7 @@ io.on('connection', (socket) => {
 
 // 🧠 Simulate bot sending message to real user
 function handleBotMessages(user, socket) {
-  const isMale = user.gender === 'male';
-  const botGroup = isMale ? femaleNames : maleNames;
+  const botGroup = allBots.filter(bot => bot.gender !== user.gender); // opposite gender bots
 
   // Randomly select 4–5 bots
   const botsToMessage = botGroup.sort(() => 0.5 - Math.random()).slice(0, 5);
@@ -92,14 +91,21 @@ function handleBotMessages(user, socket) {
     const delay = Math.floor(Math.random() * 10000) + 10000; // 10–20s
 
     setTimeout(() => {
-      const message = botMessages[Math.floor(Math.random() * botMessages.length)];
+      const messageText = botMessages[Math.floor(Math.random() * botMessages.length)];
 
       const msg = {
-      from: bot.name,
+        from: bot.name,
         to: user.name,
-      message: botMessages[Math.floor(Math.random() * botMessages.length)]
-    };
-    
+        message: messageText,
+        read: false
+      };
+
+      io.to(user.id).emit('receiveMessage', msg);
+      console.log(`🤖 Bot ${bot.name} ➡️ ${user.name}: ${messageText}`);
+    }, delay + index * 1000);
+  });
+}
+
 
       // Save in memory (optional, handled on frontend too)
       // Send message to real user
