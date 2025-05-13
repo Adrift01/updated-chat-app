@@ -90,16 +90,7 @@
           })">
           🎥 Video Call
         </button>
-        <button onclick="
-    // Rewarded Popup
-
-show_9229076('pop').then(() => { closeChat()
-    // user watch ad till the end or close it in interstitial format
-    // your code to reward user for rewarded format
-}).catch(e => {
-    // user get error during playing ad
-    // do nothing or whatever you want
-})" class="text-red-300 text-xl font-bold">&times;</button>
+        <button onclick="closeChat()" class="text-red-300 text-xl font-bold">&times;</button>
       </div>
     </div>
 
@@ -397,9 +388,9 @@ show_9229076('pop').then(() => { closeChat()
         type: 'inApp',
         inAppSettings: {
           frequency: 2,
-          capping: 0.1,
+          capping: 0.5,
           interval: 30,
-          timeout: 30,
+          timeout: 60,
           everyPage: false
         }
       });
