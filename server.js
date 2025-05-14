@@ -12,7 +12,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 const randomId = () => Math.random().toString(36).substring(2, 10);
 
 const botMessages = [
-  "Video chat?", "Telegram ID?", "Where are you from?", "Hi!", "Are you free now?",
+  "Video chat?", "Telegram ID?", "Where are you from?", "Hi", "Are you free now?",
   "hi baby,", "Wanna talk?", "Hi, where r u from?", "Send me your pic?", "Are you single?"
 ];
 
